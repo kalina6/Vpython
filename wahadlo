@@ -1,0 +1,47 @@
+"""Kalina Ziomek wahadlo"""
+
+
+import visual
+scene = visual.display()
+c = visual.cone(radius=1.0e-10)
+c.visible = 0
+
+from numpy import *	
+
+g = 9.8
+L = 1				 
+d = 0.01 			
+theta = 2.*pi/5. #kat poczatkowy 		
+thetaDot = 0.
+
+visual.scene.title = 'Wahadlo'
+visual.scene.height = 800
+visual.scene.width = 800 
+pivot = array([0,0,20]) 		# srodek wahadla
+visual.scene.center = pivot# srodek sceny
+
+
+
+bar = visual.cylinder(pos=pivot, axis = (L*sin(theta),
+                      -L*cos(theta),0), 
+                      radius = d, color=visual.color.green)
+
+# Skalowanie obrazu dla kolejnych klatek jest zablokwane
+visual.scene.autoscale = False
+
+klatkiNaSekunde = 50
+
+dt = 0.01
+t = 0.
+
+while 1:
+    
+    thetaDotDot = -(g/L) * sin(theta)
+    thetaDot += thetaDotDot * dt
+    theta += thetaDot * dt
+    bar.axis = (L*sin(theta), -L*cos(theta), 0)
+    t = t+dt
+
+    
+    visual.rate(klatkiNaSekunde)
+
